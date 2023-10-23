@@ -25,7 +25,7 @@ app.post("/eventos", async (req, res) => {
   const evento = await prisma.evento.create({
     data: {
       nome: req.body.nome ?? "Evento",
-      imgurl: req.body.imgurl ?? "https://github.com/daviaragaoyt.png",
+      imgURL: req.body.imgurl ?? "https://github.com/daviaragaoyt.png",
       descricao: req.body.descricao ?? "Descrição vazia",
       local: req.body.local ?? "Local vazio",
       palestrante: req.body.palestrante ?? "Sem palestrante"
@@ -37,7 +37,7 @@ app.post("/eventos", async (req, res) => {
 
 //METODO PRA BUSCAR EVENTO PELO ID
 app.get("/eventos/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   const evento = await prisma.evento.findUnique({
     where: { id },
   });
@@ -47,7 +47,7 @@ app.get("/eventos/:id", async (req, res) => {
 
 //METODO PRA ATUALIZAR UM EVENTO PELO ID
 app.put("/eventos/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   const evento = await prisma.evento.update({
     where: { id },
     data: req.body,
@@ -59,7 +59,7 @@ app.put("/eventos/:id", async (req, res) => {
 
 //METODO PRA DELTAR EVENTO
 app.delete("/eventos/:id", async (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   await prisma.evento.delete({
     where: { id },
   });
@@ -71,7 +71,6 @@ app.get("/", async (req, res) => {
   res.send(
     `
   <h1>EVENTO API</h1>
-  <h3><b>by @daviaragaoyt<b><h3>
   `.trim(),
   );
 });
