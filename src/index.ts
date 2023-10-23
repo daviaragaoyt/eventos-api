@@ -37,7 +37,7 @@ app.post("/eventos", async (req, res) => {
 
 //METODO PRA BUSCAR EVENTO PELO ID
 app.get("/eventos/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id
   const evento = await prisma.evento.findUnique({
     where: { id },
   });
@@ -47,7 +47,7 @@ app.get("/eventos/:id", async (req, res) => {
 
 //METODO PRA ATUALIZAR UM EVENTO PELO ID
 app.put("/eventos/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id
   const evento = await prisma.evento.update({
     where: { id },
     data: req.body,
@@ -59,7 +59,7 @@ app.put("/eventos/:id", async (req, res) => {
 
 //METODO PRA DELTAR EVENTO
 app.delete("/eventos/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+  const id = req.params.id
   await prisma.evento.delete({
     where: { id },
   });
