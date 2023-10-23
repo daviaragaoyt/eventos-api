@@ -16,3 +16,13 @@ model Todo {
   text      String
   completed Boolean
 }
+
+model evento {
+  id          String   @id @default(uuid())
+  nome        String
+  imgurl      String
+  descricao   String
+  data        DateTime @default(now())
+  local       String
+  palestrante String
+}
