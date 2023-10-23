@@ -15,7 +15,7 @@ model Todo {
 }
 
 model Evento {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   nome        String?
   imgURL      String?
   descricao   String?
