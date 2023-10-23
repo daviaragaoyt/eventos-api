@@ -10,48 +10,57 @@ app.use(express.json());
 app.use(express.raw({ type: "application/vnd.custom-type" }));
 app.use(express.text({ type: "text/html" }));
 
-app.get("/todos", async (req, res) => {
-  const todos = await prisma.todo.findMany({
-    orderBy: { createdAt: "desc" },
+//METODO PARA PEGAR TODOS OS EVENTOS
+app.get("/eventos", async (req, res) => {
+  const eventos = await prisma.evento.findMany({
+    orderBy: { nome: "desc" },
   });
 
-  res.json(todos);
+  res.json(eventos);
 });
 
-app.post("/todos", async (req, res) => {
-  const todo = await prisma.todo.create({
+
+//METODO PARA CRIAÇÃO DE EVENTO
+app.post("/eventos", async (req, res) => {
+  const evento = await prisma.evento.create({
     data: {
-      completed: false,
-      createdAt: new Date(),
-      text: req.body.text ?? "Empty todo",
+      nome: req.body.nome ?? "Evento",
+      imgurl: req.body.imgurl ?? "https://github.com/daviaragaoyt.png",
+      descricao: req.body.descricao ?? "Descrição vazia",
+      local: req.body.local ?? "Local vazio",
+      palestrante: req.body.palestrante ?? "Sem palestrante"
     },
   });
 
-  return res.json(todo);
+  return res.json(evento);
 });
 
-app.get("/todos/:id", async (req, res) => {
+//METODO PRA BUSCAR EVENTO PELO ID
+app.get("/eventos/:id", async (req, res) => {
   const id = req.params.id;
-  const todo = await prisma.todo.findUnique({
+  const evento = await prisma.evento.findUnique({
     where: { id },
   });
 
-  return res.json(todo);
+  return res.json(evento);
 });
 
-app.put("/todos/:id", async (req, res) => {
+//METODO PRA ATUALIZAR UM EVENTO PELO ID
+app.put("/eventos/:id", async (req, res) => {
   const id = req.params.id;
-  const todo = await prisma.todo.update({
+  const evento = await prisma.evento.update({
     where: { id },
     data: req.body,
   });
 
-  return res.json(todo);
+  return res.json(evento);
 });
 
-app.delete("/todos/:id", async (req, res) => {
+
+//METODO PRA DELTAR EVENTO
+app.delete("/eventos/:id", async (req, res) => {
   const id = req.params.id;
-  await prisma.todo.delete({
+  await prisma.evento.delete({
     where: { id },
   });
 
@@ -61,16 +70,12 @@ app.delete("/todos/:id", async (req, res) => {
 app.get("/", async (req, res) => {
   res.send(
     `
-  <h1>Todo REST API</h1>
-  <h2>Available Routes</h2>
-  <pre>
-    GET, POST /todos
-    GET, PUT, DELETE /todos/:id
-  </pre>
+  <h1>EVENTO API</h1>
+  <h3><b>by @daviaragaoyt<b><h3>
   `.trim(),
   );
 });
 
 app.listen(Number(port), "0.0.0.0", () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://localhost:${port}`);
 });
